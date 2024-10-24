@@ -11,7 +11,7 @@ const questionObj = {
 
 CreateQuestion(questionObj);
 nextButton();
-
+ShuffleOptions();
 //# main Execution
 
 function CreateQuestion(quesObj) {
@@ -28,6 +28,7 @@ function CreateQuestion(quesObj) {
   for (let i = 0; i < options.length; i++) {
     OptionsBtn = document.createElement("button");
     OptionsBtn.id = "options";
+    OptionsBtn.className = "optionbuttons";
     OptionsBtn.textContent = options[i].toString();
     quizOptionElement.appendChild(OptionsBtn);
     OptionsBtn.addEventListener("click", () => {
@@ -39,7 +40,7 @@ function CreateQuestion(quesObj) {
       }
       scoreElement.innerHTML = `Score : ${Score}/5`;
       quizQuestionElement.innerHTML = "Quiz Completed";
-      quizOptionElement.remove();
+      quizOptionElement.innerHTML = "";
     });
   }
 }
@@ -49,4 +50,29 @@ function nextButton() {
   nxtBtn = document.createElement("Button");
   nxtBtn.id = "btn";
   //scoreElement.append(nxtBtn);
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function ShuffleOptions(){
+  quizOptionElement = document.querySelector("#options");
+  Childbtn = quizOptionElement.querySelectorAll(".optionbuttons");
+  if(Childbtn.length > 0){
+    let randomBtnIndx = getRandomInt(Childbtn.length);
+    MoveUpFx(Childbtn[randomBtnIndx]);
+    randomBtnIndx = getRandomInt(Childbtn.length);
+    MoveDownFx(Childbtn[randomBtnIndx]);
+  }
+}
+
+function MoveUpFx(btnReference){
+  const prevElement = btnReference.previousElementSibling;
+  btnReference.insertAdjacentElement("afterend",prevElement);
+
+}
+
+function MoveDownFx(btnReference){
+  btnReference.insertAdjacentElement("beforebegin",btnReference.nextSibling);
 }
