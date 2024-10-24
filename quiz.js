@@ -5,9 +5,10 @@ const questionObj = {
   category: "Food & Drink",
   id: "qa-1",
   correctAnswer: "Three",
-  options: ["Two", "Three ", "Four", "Five"],
+  options: ["Two", "Three", "Four", "Five"],
   question: "How many pieces of bun are in a Mcdonald's Big Mac?",
 };
+
 
 CreateQuestion(questionObj);
 nextButton();
@@ -18,6 +19,7 @@ function CreateQuestion(quesObj) {
   let ques = quesObj.question;
   let options = quesObj.options;
   let quizAnswer = quesObj.correctAnswer;
+  
 
   quizQuestionElement = document.querySelector("#question");
   quizQuestionElement.innerHTML = ques;
@@ -28,15 +30,18 @@ function CreateQuestion(quesObj) {
   for (let i = 0; i < options.length; i++) {
     OptionsBtn = document.createElement("button");
     OptionsBtn.id = "options";
-    OptionsBtn.textContent = options[i];
-    OptionsBtn.addEventListener("click", (OptionsBtn) => {
-      if (OptionsBtn.innerHTML === quizAnswer) {
+    OptionsBtn.textContent = options[i].toString();
+    quizOptionElement.appendChild(OptionsBtn);
+    OptionsBtn.addEventListener("click", () => {
+      let scoreElement = document.querySelector("#score");
+      if (options[i] === quizAnswer) {
         Score+=1;
+        scoreElement.innerHTML = `Score : ${Score}/5`;
       }else{
-        Score-=1;
+        Score-=.25;
+        scoreElement.innerHTML = `Score : ${Score}/5`;
       }
     });
-    quizOptionElement.append(OptionsBtn);
   }
 }
 
@@ -46,3 +51,4 @@ function nextButton() {
   nxtBtn.id = "btn";
   //scoreElement.append(nxtBtn);
 }
+
