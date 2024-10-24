@@ -1,6 +1,6 @@
 // # main Execution
 
-// let Score = 0;
+// let score = 0;
 // const questionObj = {
 //   category: "Food & Drink",
 //   id: "qa-1",
@@ -51,20 +51,19 @@ const quesJSON = [
     question: "Which author wrote 'Mary Poppins'?",
   },
 ];
-var dataFromJson = JSON.parse(Questions);
-CreateQuestion(quesJSON);
-
-nextButton();
-ShuffleOptions();
+//var dataFromJson = JSON.parse();
+// console.log(dataFromJson);
+let questionTracker = 0;
+let score = 0;
+CreateQuestion(quesJSON,questionTracker);
+//ShuffleOptions();
 
 //# main Execution
 
 function CreateQuestion(quesObj) {
-
-
-  let ques = quesObj.question;
-  let options = quesObj.options;
-  let quizAnswer = quesObj.correctAnswer;
+  let ques = quesObj[questionTracker].question;
+  let options = quesObj[questionTracker].options;
+  let quizAnswer = quesObj[questionTracker].correctAnswer;
 
   quizQuestionElement = document.querySelector("#question");
   quizQuestionElement.innerHTML = ques;
@@ -78,24 +77,40 @@ function CreateQuestion(quesObj) {
     OptionsBtn.className = "optionbuttons";
     OptionsBtn.textContent = options[i].toString();
     quizOptionElement.appendChild(OptionsBtn);
+    
     OptionsBtn.addEventListener("click", () => {
+        questionTracker++;
       let scoreElement = document.querySelector("#score");
       if (options[i] === quizAnswer) {
-        Score += 1;
+        score += 1;
       } else {
-        Score -= 0.25;
+        score -= 0.25;
       }
-      scoreElement.innerHTML = `Score : ${Score}/5`;
-      quizQuestionElement.innerHTML = "Quiz Completed";
+      scoreElement.innerHTML = `score : ${score}/${quesObj.length}`;
       quizOptionElement.innerHTML = "";
+      if(questionTracker<quesObj.length){
+        LoadNextQuestion(questionTracker); 
+      }
+         
+      if(questionTracker === quesObj.length){
+        quizQuestionElement.innerHTML = "Quiz Completed";
+        quizOptionElement.innerHTML = "";
+        return;
+      }
+      
     });
   }
+}
+
+function LoadNextQuestion(questionTracker) {
+  CreateQuestion(quesJSON,questionTracker);
 }
 
 function nextButton() {
   // scoreElement = document.querySelector("#score");
   nxtBtn = document.createElement("Button");
   nxtBtn.id = "btn";
+  nxtBtn.addEventListener("click",()=>{LoadNextQuestion(questionTracker)})
   //scoreElement.append(nxtBtn);
 }
 
@@ -109,8 +124,8 @@ function ShuffleOptions() {
   if (Childbtn.length > 0) {
     let randomBtnIndx = getRandomInt(Childbtn.length);
     MoveUpFx(Childbtn[randomBtnIndx]);
-    randomBtnIndx = getRandomInt(Childbtn.length);
-    MoveDownFx(Childbtn[randomBtnIndx]);
+    // randomBtnIndx = getRandomInt(Childbtn.length);
+    // MoveDownFx(Childbtn[randomBtnIndx]);
   }
 }
 

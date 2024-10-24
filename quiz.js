@@ -15,6 +15,7 @@ ShuffleOptions();
 //# main Execution
 
 function CreateQuestion(quesObj) {
+
   let ques = quesObj.question;
   let options = quesObj.options;
   let quizAnswer = quesObj.correctAnswer;
@@ -44,6 +45,7 @@ function CreateQuestion(quesObj) {
     });
   }
 }
+
 
 function nextButton() {
   // scoreElement = document.querySelector("#score");
