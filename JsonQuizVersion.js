@@ -55,8 +55,11 @@ const quesJSON = [
 // console.log(dataFromJson);
 let questionTracker = 0;
 let score = 0;
+let scoreElement = document.querySelector("#score");
+let quizQuestionElement = document.querySelector("#question");
+let quizOptionElement = document.querySelector("#options");
 CreateQuestion(quesJSON,questionTracker);
-//ShuffleOptions();
+ShuffleOptions();
 
 //# main Execution
 
@@ -64,11 +67,11 @@ function CreateQuestion(quesObj) {
   let ques = quesObj[questionTracker].question;
   let options = quesObj[questionTracker].options;
   let quizAnswer = quesObj[questionTracker].correctAnswer;
-
-  quizQuestionElement = document.querySelector("#question");
+  
+  
   quizQuestionElement.innerHTML = ques;
 
-  quizOptionElement = document.querySelector("#options");
+  
   // OptionsBtn = document.createElement("div");
   // OptionsBtn.className = "OptnDiv";
   for (let i = 0; i < options.length; i++) {
@@ -80,7 +83,6 @@ function CreateQuestion(quesObj) {
     
     OptionsBtn.addEventListener("click", () => {
         questionTracker++;
-      let scoreElement = document.querySelector("#score");
       if (options[i] === quizAnswer) {
         score += 1;
       } else {
@@ -100,6 +102,7 @@ function CreateQuestion(quesObj) {
       
     });
   }
+  nextButton();
 }
 
 function LoadNextQuestion(questionTracker) {
@@ -108,9 +111,22 @@ function LoadNextQuestion(questionTracker) {
 
 function nextButton() {
   // scoreElement = document.querySelector("#score");
+  quizOptionElement = document.querySelector("#options");
   nxtBtn = document.createElement("Button");
   nxtBtn.id = "btn";
-  nxtBtn.addEventListener("click",()=>{LoadNextQuestion(questionTracker)})
+  nxtBtn.innerHTML = "Next Question";
+  quizOptionElement.appendChild(nxtBtn);
+  nxtBtn.addEventListener("click",()=>{
+    questionTracker++;
+    quizOptionElement.innerHTML = "";
+    scoreElement.innerHTML = `score : ${score}/${quesJSON.length}`;
+    if(questionTracker < quesJSON.length ){
+        LoadNextQuestion(questionTracker);
+    }
+    else{
+        quizQuestionElement.innerHTML = "Quiz Completed"; 
+    }
+    })
   //scoreElement.append(nxtBtn);
 }
 
